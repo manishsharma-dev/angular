@@ -1,0 +1,26 @@
+<div class="sidebar" [ngClass]="{sidebarPushRight: isActive,'sidebar-fix': pageLoadStatus==1,'sidebar-small':pageLoadStatus!=1}">
+    <nav class="nav-width">
+        <div class="menu-hide">
+            <a href="javascript:void(0)" title="Collapse splitter" (click)="changeFormat()" *ngIf="pageLoadStatus==1"><span class="menu-left0">&nbsp;&lt;</span></a>
+            <a href="javascript:void(0)" title="Expand splitter" (click)="changeData()" *ngIf="pageLoadStatus==0"><span class="menu-left0">&nbsp;&gt;</span><span class="menu-explorer">Menu Explorer</span></a>
+        </div>
+        <div class="list-group pt-25em">
+            <div class="nested-menu" *ngFor="let Menu of LeftMenu">
+                <a *ngIf="Menu.children.length==0" routerLink="/{{Menu.Route}}" (click)="EntitySession(Menu.Name,Menu.Label,Menu.Ref)" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <i [class]="Menu.Icon"></i>&nbsp;{{ Menu.Label | translate }}
+                </a>
+                <a class="list-group-item" *ngIf="Menu.children.length!=0" (click)="addExpandClass(Menu.RECID)">
+                    <span><i [class]="Menu.Icon"></i>&nbsp; {{ Menu.Label | translate }}</span>
+                    <i class="fa fa-chevron-circle-down c-down " aria-hidden="true"></i>
+                </a>
+                <div class="nested" [class.expand]="showMenu === Menu.RECID" *ngIf="Menu.children.length>=0">
+                    <ul class="submenu">
+                        <li *ngFor="let submenu of Menu.children">
+                            <a routerLink="/{{submenu.Route}}" href="javascript:void(0)" [routerLinkActive]="['router-link-active']" (click)="EntitySession(submenu.Name,submenu.Label,submenu.Ref)"><span>{{ submenu.Label | translate }}</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
